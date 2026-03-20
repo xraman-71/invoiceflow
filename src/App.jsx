@@ -728,7 +728,7 @@ export default function App() {
                                     <span className="text-[10px] font-bold text-primary">{Math.round(invoiceData.branding.signatureScale * 100)}%</span>
                                   </div>
                                   <input 
-                                    type="range" min="0.5" max="2" step="0.1"
+                                    type="range" min="1.0" max="2" step="0.1"
                                     value={invoiceData.branding.signatureScale}
                                     onChange={e => handleBrandingChange('signatureScale', parseFloat(e.target.value))}
                                     className="w-full accent-primary h-1 bg-bg-section rounded-full appearance-none cursor-pointer"
