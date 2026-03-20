@@ -10,6 +10,35 @@ function cn(...inputs) {
 }
 
 // --- Constants ---
+const CURRENCIES = [
+  { code: 'USD', symbol: '$', name: 'US Dollar' },
+  { code: 'EUR', symbol: '€', name: 'Euro' },
+  { code: 'GBP', symbol: '£', name: 'British Pound' },
+  { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+  { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
+  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+  { code: 'CHF', symbol: 'Fr.', name: 'Swiss Franc' },
+  { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
+  { code: 'SEK', symbol: 'kr', name: 'Swedish Krona' },
+  { code: 'NZD', symbol: 'NZ$', name: 'New Zealand Dollar' },
+  { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+  { code: 'BRL', symbol: 'R$', name: 'Brazilian Real' },
+  { code: 'RUB', symbol: '₽', name: 'Russian Ruble' },
+  { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
+  { code: 'MXN', symbol: '$', name: 'Mexican Peso' },
+  { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar' },
+  { code: 'HKD', symbol: 'HK$', name: 'Hong Kong Dollar' },
+  { code: 'NOK', symbol: 'kr', name: 'Norwegian Krone' },
+  { code: 'TRY', symbol: '₺', name: 'Turkish Lira' },
+  { code: 'ZAR', symbol: 'R', name: 'South African Rand' },
+  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham' },
+  { code: 'SAR', symbol: 'ر.س', name: 'Saudi Riyal' },
+  { code: 'MYR', symbol: 'RM', name: 'Malaysian Ringgit' },
+  { code: 'THB', symbol: '฿', name: 'Thai Baht' },
+  { code: 'IDR', symbol: 'Rp', name: 'Indonesian Rupiah' },
+  { code: 'PHP', symbol: '₱', name: 'Philippine Peso' },
+];
+
 const INVOICE_TYPES = [
   { 
     id: 'standard', 
@@ -462,9 +491,11 @@ export default function App() {
                           onChange={e => handleInputChange('currency', e.target.value)}
                           className="w-full bg-white border border-border-light rounded-2xl px-3 py-2 text-xs font-display focus:border-primary outline-none transition-all"
                         >
-                          <option value="$">USD ($)</option>
-                          <option value="€">EUR (€)</option>
-                          <option value="£">GBP (£)</option>
+                          {CURRENCIES.map(curr => (
+                            <option key={curr.code} value={curr.symbol}>
+                              {curr.code} ({curr.symbol})
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -567,7 +598,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="space-y-6">
+                <div className="lg:col-span-4 space-y-6">
                    <div className="bg-white border border-black/[0.08] rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.03)] space-y-8">
                       <h3 className="text-[10px] font-display font-bold text-text-muted uppercase tracking-[0.2em] border-b border-border-light pb-4">Summary</h3>
                       
@@ -1286,7 +1317,7 @@ function LandingPage({ onStart }) {
                 <div className="w-12 h-12 bg-primary/[0.03] text-primary rounded-2xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all transform group-hover:rotate-6">
                    <item.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-display font-bold text-xl text-text-primary">{item.t}</h3>
+                <h3 className="text-xl font-display font-bold text-text-primary">{item.t}</h3>
                 <p className="text-text-muted text-sm leading-relaxed font-medium">{item.d}</p>
              </div>
            ))}
