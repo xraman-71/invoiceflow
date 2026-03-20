@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>InvoiceFlow — Invoice Type Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface-2: #F4F4F5;
+  --border: #E4E4E7;
+  --border-strong: #D1D1D6;
+  --text: #09090B;
+  --text-2: #3F3F46;
+  --text-3: #71717A;
+  --text-4: #A1A1AA;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.07);
+  --shadow-lg: 0 20px 40px rgba(0,0,0,.09);
+  --transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 56px;
+  background: rgba(250,250,250,0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo {
+  width: 28px; height: 28px;
+  background: var(--text);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+.nav-logo:hover { transform: rotate(-3deg) scale(1.05); }
+.nav-logo svg { width: 14px; height: 14px; fill: white; }
+
+.nav-name {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.nav-right { display: flex; align-items: center; gap: 4px; }
+
+.nav-link {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-3);
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+.nav-link:hover { background: var(--surface-2); color: var(--text); }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--text);
+  padding: 72px 32px 60px;
+  text-align: center;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.hero-eyebrow-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: rgba(255,255,255,0.28);
+}
+
+.hero-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.48);
+  max-width: 460px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.hero-stats {
+  display: inline-flex;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+}
+
+.hero-stat {
+  padding: 12px 28px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.hero-stat:last-child { border-right: none; }
+
+.hero-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.hero-stat-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 48px 32px 72px;
+}
+
+/* ── SECTION INTRO ── */
+.section-intro {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.section-intro h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.04em;
+  margin-bottom: 6px;
+}
+
+.section-intro p {
+  font-size: 0.85rem;
+  color: var(--text-3);
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* ── CARDS GRID ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.card {
+  background: var(--surface);
+  padding: 26px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: background var(--transition);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--c);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover { background: #FDFDFD; }
+.card:hover::before { transform: scaleX(1); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.card-num {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-4);
+  letter-spacing: 0.08em;
+}
+
+.card-badge {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: white;
+  background: var(--c);
+  padding: 2px 8px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  margin-bottom: 5px;
+}
+
+.card-tagline {
+  font-size: 0.76rem;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.card-desc {
+  font-size: 0.78rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.card-uses {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.card-use {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 8%, white);
+  border: 1px solid color-mix(in srgb, var(--c) 14%, white);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  transition: all var(--transition);
+}
+
+.card:hover .card-use {
+  background: color-mix(in srgb, var(--c) 13%, white);
+  border-color: color-mix(in srgb, var(--c) 22%, white);
+}
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.card-cta-text {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--c);
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.card-cta-arrow {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--c) 10%, white);
+  border: 1px solid color-mix(in srgb, var(--c) 18%, white);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c);
+  font-size: 0.75rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .card-cta-arrow {
+  background: var(--c);
+  color: white;
+  transform: translateX(3px);
+}
+
+/* ── COMPARE ── */
+.compare-section {
+  margin-top: 64px;
+}
+
+.compare-section h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.compare-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.compare-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.compare-tbl thead tr {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.compare-tbl th {
+  padding: 11px 16px;
+  font-family: var(--font-display);
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.compare-tbl td {
+  padding: 11px 16px;
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+  vertical-align: middle;
+  color: var(--text-2);
+}
+
+.compare-tbl tbody tr { transition: background var(--transition); }
+.compare-tbl tbody tr:hover td { background: var(--bg); }
+
+.compare-tbl td strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.ct-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.yes {
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: #15803D;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  padding: 2px 8px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.partial {
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: #9A3412;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #FFF7ED;
+  border: 1px solid #FDBA74;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.none-dash {
+  color: var(--border-strong);
+  font-size: 0.7rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--text);
+  padding: 28px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+footer span {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+  font-family: var(--font-mono);
+}
+
+footer a {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+footer a:hover { color: rgba(255,255,255,0.8); }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.on { opacity: 1; transform: none; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
+
+@media (max-width: 640px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .hero-stats { flex-wrap: wrap; }
+  .hero-stat { padding: 10px 18px; }
+  .nav { padding: 0 16px; }
+  .container { padding: 32px 16px 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 17h8v1.5H8V17zm0-3h8v1.5H8V14zm0-3h5v1.5H8V11z"/></svg>
+    </div>
+    <span class="nav-name">InvoiceFlow</span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">← Home</a>
+    <a href="#compare" class="nav-link">Compare</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas class="hero-canvas" id="auroraCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      InvoiceFlow
+      <span class="hero-eyebrow-dot"></span>
+      Invoice Type Library
+    </div>
+    <h1 class="hero-title">8 Invoice Types.<br/><em>Every Business Need.</em></h1>
+    <p class="hero-sub">From everyday billing to international customs — every invoice type, purpose-built and ready to use.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">8</span>
+        <span class="hero-stat-lbl">Invoice Types</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">PDF</span>
+        <span class="hero-stat-lbl">+ Excel Export</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">100%</span>
+        <span class="hero-stat-lbl">Frontend Only</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">0</span>
+        <span class="hero-stat-lbl">Sign-up Needed</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section-intro reveal">
+    <h2>Choose Your Invoice Type</h2>
+    <p>Each type is a fully functional, standalone invoice app with PDF download, Excel export, and live calculations.</p>
+  </div>
+
+  <div class="cards-grid reveal">
+
+    <!-- 01 Standard -->
+    <a class="card" href="standard-invoice.html" style="--c:#09090B;">
+      <div class="card-header">
+        <span class="card-num">TYPE 01 / 08</span>
+        <span class="card-badge">STD</span>
+      </div>
+      <div class="card-title">Standard Invoice</div>
+      <div class="card-tagline">The universal invoice for everyday sales worldwide.</div>
+      <div class="card-desc">The go-to document for any business transaction. Issue this for goods sold, services rendered, or freelance work completed. Accepted everywhere, by every industry.</div>
+      <div class="card-uses">
+        <span class="card-use">Product Sales</span>
+        <span class="card-use">Service Billing</span>
+        <span class="card-use">Freelance</span>
+        <span class="card-use">B2B</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Standard Invoice</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 02 Proforma -->
+    <a class="card" href="proforma-invoice.html" style="--c:#1D4ED8;">
+      <div class="card-header">
+        <span class="card-num">TYPE 02 / 08</span>
+        <span class="card-badge">PRO</span>
+      </div>
+      <div class="card-title">Proforma Invoice</div>
+      <div class="card-tagline">A preliminary invoice before delivery or shipment.</div>
+      <div class="card-desc">Send before shipping goods or starting work. Used for customs declarations, import/export, advance payment collection, and confirming order details with buyers internationally.</div>
+      <div class="card-uses">
+        <span class="card-use">Pre-Shipment</span>
+        <span class="card-use">Customs</span>
+        <span class="card-use">Import/Export</span>
+        <span class="card-use">Advance Payment</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Proforma Invoice</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 03 Commercial -->
+    <a class="card" href="commercial-invoice.html" style="--c:#9A3412;">
+      <div class="card-header">
+        <span class="card-num">TYPE 03 / 08</span>
+        <span class="card-badge">COM</span>
+      </div>
+      <div class="card-title">Commercial Invoice</div>
+      <div class="card-tagline">Mandatory customs document for international trade.</div>
+      <div class="card-desc">The legally required document for every international shipment. Includes HS codes, port details, country of origin, Incoterms, and Bill of Lading — everything customs needs.</div>
+      <div class="card-uses">
+        <span class="card-use">International Shipping</span>
+        <span class="card-use">Customs Clearance</span>
+        <span class="card-use">Import/Export</span>
+        <span class="card-use">Cross-Border</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Commercial Invoice</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 04 Tax -->
+    <a class="card" href="tax-invoice.html" style="--c:#15803D;">
+      <div class="card-header">
+        <span class="card-num">TYPE 04 / 08</span>
+        <span class="card-badge">TAX</span>
+      </div>
+      <div class="card-title">Tax Invoice</div>
+      <div class="card-tagline">VAT/GST compliant invoice for indirect tax systems.</div>
+      <div class="card-desc">Required in all GST/VAT countries — India, EU, UK, UAE, Australia, Canada and more. Includes tax registration numbers, HSN/SAC codes, and itemized tax for each line item for input credit claims.</div>
+      <div class="card-uses">
+        <span class="card-use">GST (India/AU)</span>
+        <span class="card-use">VAT (EU/UK/UAE)</span>
+        <span class="card-use">Tax Credit Claims</span>
+        <span class="card-use">B2B Compliance</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Tax Invoice</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 05 Credit -->
+    <a class="card" href="credit-invoice.html" style="--c:#0F766E;">
+      <div class="card-header">
+        <span class="card-num">TYPE 05 / 08</span>
+        <span class="card-badge">CRN</span>
+      </div>
+      <div class="card-title">Credit Invoice (Credit Note)</div>
+      <div class="card-tagline">Reduces the amount owed — the global refund document.</div>
+      <div class="card-desc">Issue when a buyer has overpaid, returned goods, or when you need to correct a billing error. The Credit Note references the original invoice and formally reduces the balance owed.</div>
+      <div class="card-uses">
+        <span class="card-use">Returns & Refunds</span>
+        <span class="card-use">Overbilling Fix</span>
+        <span class="card-use">Post-Sale Discounts</span>
+        <span class="card-use">Cancellations</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Credit Note</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 06 Debit -->
+    <a class="card" href="debit-invoice.html" style="--c:#B45309;">
+      <div class="card-header">
+        <span class="card-num">TYPE 06 / 08</span>
+        <span class="card-badge">DBN</span>
+      </div>
+      <div class="card-title">Debit Invoice (Debit Note)</div>
+      <div class="card-tagline">Increases the amount owed — a global adjustment document.</div>
+      <div class="card-desc">Issue when a buyer owes more than originally invoiced — for extra work, price adjustments, penalties, or underbilling corrections. References the original invoice and formally increases the balance due.</div>
+      <div class="card-uses">
+        <span class="card-use">Underbilling Fix</span>
+        <span class="card-use">Additional Scope</span>
+        <span class="card-use">Price Adjustments</span>
+        <span class="card-use">Late Fee / Penalty</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Debit Note</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 07 Recurring -->
+    <a class="card" href="recurring-invoice.html" style="--c:#6D28D9;">
+      <div class="card-header">
+        <span class="card-num">TYPE 07 / 08</span>
+        <span class="card-badge">REC</span>
+      </div>
+      <div class="card-title">Recurring Invoice</div>
+      <div class="card-tagline">Periodic invoicing for subscriptions and ongoing services.</div>
+      <div class="card-desc">For monthly retainers, SaaS subscriptions, utility billing, or any regular service. Set the billing frequency, period from/to, and contract ID. Tracks next invoice date automatically.</div>
+      <div class="card-uses">
+        <span class="card-use">SaaS Subscriptions</span>
+        <span class="card-use">Monthly Retainers</span>
+        <span class="card-use">Utility Billing</span>
+        <span class="card-use">Service Contracts</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Recurring Invoice</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 08 Final -->
+    <a class="card" href="final-invoice.html" style="--c:#09090B;">
+      <div class="card-header">
+        <span class="card-num">TYPE 08 / 08</span>
+        <span class="card-badge">FIN</span>
+      </div>
+      <div class="card-title">Final Invoice</div>
+      <div class="card-tagline">The closing invoice issued on project or contract completion.</div>
+      <div class="card-desc">The conclusive billing document at the end of a project or contract. Deducts all previously invoiced amounts and advances paid, showing only the remaining balance due. Formally closes the billing engagement.</div>
+      <div class="card-uses">
+        <span class="card-use">Project Closeout</span>
+        <span class="card-use">Construction</span>
+        <span class="card-use">Consulting End</span>
+        <span class="card-use">Final Milestone</span>
+      </div>
+      <div class="card-cta">
+        <span class="card-cta-text">Create Final Invoice</span>
+        <span class="card-cta-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- COMPARE TABLE -->
+  <div class="compare-section reveal" id="compare">
+    <h2>Quick Comparison</h2>
+    <div class="compare-wrap">
+      <table class="compare-tbl">
+        <thead>
+          <tr>
+            <th>Invoice Type</th>
+            <th>When to Use</th>
+            <th>References Original</th>
+            <th>For Customs</th>
+            <th>Tax Registration</th>
+            <th>Recurring</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="ct-dot" style="background:#09090B;"></span><strong>Standard</strong></td>
+            <td>Everyday sales &amp; services</td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><span class="ct-dot" style="background:#1D4ED8;"></span><strong>Proforma</strong></td>
+            <td>Before delivery / pre-payment</td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="yes">✓ Yes</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><span class="ct-dot" style="background:#9A3412;"></span><strong>Commercial</strong></td>
+            <td>International shipments</td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="yes">✓ Mandatory</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><span class="ct-dot" style="background:#15803D;"></span><strong>Tax</strong></td>
+            <td>VAT / GST countries</td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="partial">Partial</span></td>
+            <td><span class="yes">✓ Required</span></td>
+            <td><span class="none-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><span class="ct-dot" style="background:#0F766E;"></span><strong>Credit Note</strong></td>
+            <td>Refunds / overbilling</td>
+            <td><span class="yes">✓ Mandatory</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><span class="ct-dot" style="background:#B45309;"></span><strong>Debit Note</strong></td>
+            <td>Additional charges / underbilling</td>
+            <td><span class="yes">✓ Mandatory</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+          </tr>
+          <tr>
+            <td><span class="ct-dot" style="background:#6D28D9;"></span><strong>Recurring</strong></td>
+            <td>Subscriptions / retainers</td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="yes">✓ Yes</span></td>
+          </tr>
+          <tr>
+            <td><span class="ct-dot" style="background:#09090B;"></span><strong>Final</strong></td>
+            <td>Project / contract completion</td>
+            <td><span class="yes">✓ Deducts prior</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+            <td><span class="none-dash">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2024 InvoiceFlow — 8 Invoice Types · 100% Frontend · Free Forever</span>
+  <a href="index.html">← Back to Home</a>
+</footer>
+
+<script>
+/* ── AURORA ── */
+const canvas = document.getElementById('auroraCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, pts;
+
+function initAurora() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+  pts = [
+    { x: W*0.08, y: H*0.4, vx: 0.28, vy: 0.14, r: H*0.75, color: 'rgba(29,78,216,0.25)' },
+    { x: W*0.45, y: H*0.65, vx: -0.18, vy: 0.22, r: H*0.8, color: 'rgba(109,40,217,0.2)' },
+    { x: W*0.82, y: H*0.25, vx: -0.14, vy: 0.2, r: H*0.7, color: 'rgba(16,185,129,0.16)' },
+    { x: W*0.25, y: H*0.7, vx: 0.22, vy: -0.16, r: H*0.6, color: 'rgba(99,102,241,0.18)' },
+    { x: W*0.68, y: H*0.5, vx: 0.1, vy: -0.18, r: H*0.65, color: 'rgba(59,130,246,0.18)' },
+  ];
+}
+
+function drawAurora() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of pts) {
+    const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+    g.addColorStop(0, p.color);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+  }
+  requestAnimationFrame(drawAurora);
+}
+
+window.addEventListener('resize', initAurora);
+initAurora();
+drawAurora();
+
+/* ── REVEAL ── */
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.06 });
+reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
