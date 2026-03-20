@@ -1156,9 +1156,14 @@ function LandingPage({ onStart }) {
           </span>
           Professional Suite 2.0 · Live
         </div>
-        <h1 className="text-5xl md:text-8xl font-display font-black text-text-primary tracking-tighter leading-[0.9] max-w-5xl mx-auto">
-          The Global Standard in <br/><span className="text-primary italic">Precision</span> Invoicing.
-        </h1>
+        <motion.h1 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="text-5xl md:text-8xl font-display font-black text-text-primary tracking-tighter leading-[0.9] max-w-5xl mx-auto"
+        >
+          The Global Standard <br/><span className="text-primary italic">in Precision Invoicing.</span>
+        </motion.h1>
         <p className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto font-medium leading-relaxed">
           Experience industrial-grade PDF precision wrapped in a curated minimalist interface. Built for elite teams that demand excellence.
         </p>
